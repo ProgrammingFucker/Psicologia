@@ -211,9 +211,10 @@ def detalles_admin():
         cursor = mysql.connection.cursor()
         cursor.execute('INSERT INTO cita(id_paciente,id_medico, fecha, estado_cita, horario,nombre,apellido) VALUES (%s, %s, %s, %s, %s, %s, %s)',
         (nombre,id_medico,fecha,'Aceptado',apellido))
+        detalle = cursor.fecthone()
         mysql.connection.commit()
         msg = 'Se ha actualizado el reporte correctamente'
-        return redirect(url_for('index', msg=msg))
+        return redirect(url_for('index', msg=msg), detalles = detalle)
 
 
 
