@@ -177,8 +177,8 @@ def logout():
 @app.route('/agendar_cita')
 def agcita():
     cur= mysql.connection.cursor()
-    cur.execute('SELECT h.id_medico,  u.nombre, u.apellido, u.telefono from usuario u, horario_medico h WHERE u.id = h.id_medico')
-    data1 = cur.fetchone()
+    cur.execute('SELECT * FROM psicologos')
+    data1 = cur.fetchall()
     print(data1)
     cur.close()
     return render_template('ag_cita.html', detalles=data1)
@@ -249,7 +249,7 @@ def informacion():
 @app.route('/medicos')
 def medicos():
     cur= mysql.connection.cursor()
-    cur.execute('SELECT * FROM psicologos where tipo=3 order by id asc  ;')
+    cur.execute('SELECT * FROM psicologos order by id ASC  ;')
     data = cur.fetchall()
     cur.close()
     return render_template('medicos.html', reporte = data)
