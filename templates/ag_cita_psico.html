@@ -47,7 +47,7 @@
   
     <div class="container shadow-lg p-3 mb-5 bg-white rounded bg ">
       <div class="container shadow-lg p-3 mb-5 bg-white rounded bg ">
-        <form action="/detalles_admin"  method="POST">
+        <form action="/guardar_detalles"  method="POST">
           <label for="inputid">Codigo del paciente</label>
           <input type="text" class="form-control" name="txtid" value="">
           <label for="inputEmail4">Nombres</label>
@@ -64,7 +64,7 @@
           <select class="form-select" name="id_doctor" >
             <option value="0" selected>Seleccionar</option>
             {%for detalle in detalles %}
-            <option value="{{detalles.0}}">{{detalles.1}} {{detalles.2}}</option>
+            <option value="{{detalle.0}}">{{detalle.1}} {{detalle.2}}</option>
             {% endfor %}
 
           </select>

@@ -44,7 +44,13 @@
         </div>
       </div>
     </nav>
-  
+    {% if msg %}
+
+  <div class="alert alert-warningt alert-dismissible fade show" role="alert">
+    {{ msg }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endif %}
     <div class="container shadow-lg p-3 mb-5 bg-white rounded bg ">
       <div class="container shadow-lg p-3 mb-5 bg-white rounded bg ">
         <form action="/guardar_detalles"  method="POST">
@@ -70,7 +76,7 @@
           </select>
           
           <label>Fecha y Hora</label>
-          <input type="datetime-local" class="form-control" name="txtfecha"  min="2022-07-07" max="2022-12-31" required="" />
+          <input type="datetime-local" id="txtfecha" class="form-control" name="txtfecha" required="" />
       
       
       
