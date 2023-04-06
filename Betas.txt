@@ -1,0 +1,6 @@
+Correcpciones u/o Mejoras
+
+
+1. Mejorar las opciones a escoger de violencia(listo). (Final 6.0)
+2. Buscar una cita por parte de un médico o la fundación(En proceso) (Final 6.5)
+3. El paciente pueda ver sus citas. (Falta) (Final 7.0)

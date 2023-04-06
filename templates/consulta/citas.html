@@ -1,0 +1,99 @@
+{% extends "consulta/consulta.html" %}
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
+
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.bundle.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.bundle.js.map') }}"></script>
+  <title>Gestionar citas</title>
+</head>
+
+<body>
+  <p class="text-uppercase display-6 text-center" style="font-family: Courier New; ">Citas agendadas</p>
+  <hr>
+  <div style="background-color: #F4BEEE;">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        {% if (session['tipo']==1) or(session['tipo']==2) or (session['tipo']==3) %}
+          <a class="navbar-brand" href="{{ url_for('index') }}">Inicio</a>
+        
+        
+        {%endif%}
+        <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                  
+                    <li><a class="dropdown-item" href="{{ url_for('admin') }}">Home</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('cita_psico') }}">Agendar</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('citas') }}">Gestionar citas</a></li>
+                                   
+                   <li><a class="dropdown-item" href="{{ url_for('medicos') }}">Psicologos</a></li>
+                    
+                    <li><a class="dropdown-item text-dark bi-door-open" href="{{ url_for('logout') }}"> Cerrar sesión</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+    {% block body %}
+    
+    <div class="container shadow-lg p-3 mb-5 bg-white rounded bg ">
+      <div class="container shadow-lg p-3 mb-5 bg-white rounded bg ">
+        <table class="table table-hover" id="example">
+          <thead class="table-light">
+              <tr>
+                  <td>
+                      Código
+                  </td>
+                  <td>
+                      Fecha
+                  </td>
+                  <td>
+                      Paciente
+                  </td>
+                  <td>
+                    Codigo Medico
+                </td>
+                  <td>
+                      Estado
+                  </td>
+                  <td>
+                    observaciones
+                </td>
+              </tr>
+          </thead>
+          <tbody>
+            {% for reporte in reporte %}
+              <tr>
+                <td>{{reporte.0}}</td>
+                <td>{{reporte.4}}</td>
+                <td>{{reporte.1}} {{reporte.2}}</td>
+                <td>{{reporte.3}}</td>
+                <td>{{reporte.5}}</td>
+                <td>{{reporte.6}}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+      </table>
+      </div>
+    </div>
+    
+  </div>
+  </div>
+  <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</body>
+
+</footer>
+
+{% endblock %}

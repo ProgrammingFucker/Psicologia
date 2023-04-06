@@ -14,6 +14,34 @@
   <script src="{{ url_for('static', filename='js/bootstrap.bundle.js') }}"></script>
   <script src="{{ url_for('static', filename='js/bootstrap.bundle.js.map') }}"></script>
   <title>Home</title>
+  <style>
+    .botones-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .boton {
+      margin-left: 30px;
+      /* margin-right: 12px; */
+      width: 300px;
+      height: 200px;
+      background-color: #1e90ff;
+      color: #fff;
+      font-size: 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .boton:hover {
+      background-color: #187bcd;
+    }
+
+    .boton:active {
+      border: 2px solid #fff;
+    }
+  </style>
 </head>
 
 <body>
@@ -26,7 +54,7 @@
         <a class="navbar-brand" href="{{ url_for('index') }}">Inicio</a>
 
 
-        
+
 
         <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
           <ul class="navbar-nav">
@@ -36,6 +64,7 @@
               {% if (session['tipo']==3) %}
             <li><a class="dropdown-item" href="{{ url_for('medicos') }}">Psicologos</a></li>
             <li><a class="dropdown-item" href="{{ url_for('agcita') }}">Agendar</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('mis_citas') }}">Mis Citas</a></li>
 
             <li><a class="dropdown-item text-dark bi-door-open" href="{{ url_for('logout') }}"> Cerrar sesión</a></li>
             {% endif %}
@@ -49,75 +78,23 @@
 
     <div class="container shadow-lg p-3 mb-5 bg-white rounded bg ">
       <div class="container shadow-lg p-3 mb-5 bg-white rounded bg ">
-        <div class="row">
-          <div class="col-lg-6 col-md-6 col-ms-6 col-6   ">
-            <img src="{{ url_for('static', filename='img/violenciafisica.gif') }}" class="w-50 ">
-          </div>
-          <div class="col-lg-6 col-md-6 col-ms-6 col-6  text-right  ">
-            <p class="lead "><b class="dispaly-6">¡Señales Físicas!<br></b></p>
-            <input type="checkbox" id="sf1" value="1">Tengo problemas para iniciar o mantener el sueño por miedo a ser
-            maltratada.
-            <br>
-            <input type="checkbox" id="sf2" value="1">Mi apetito ha cambiado: se ha reducido o aumentado.
-            <br>
-            <input type="checkbox" id="sf3" value="1">Presento reacciones involuntarias ante muestras de afecto.
-            <br>
-            <input type="checkbox" id="sf4" value="1">Mis músculos normalmente duelen o están tensos.
-            <br>
-            <input type="checkbox" id="sf5" value="1">Amenaza con hacer daño a la victima o su entorno.
-            <br>
-            <br></br>
-          </div>
-          <div class="row">
-            <div class="col-lg-6 col-md-6 col-ms-6 col-6   ">
-              <img src="{{ url_for('static', filename='img/noestasola.gif') }}" class="w-50 ">
-            </div>
-            <div class="col-lg-6 col-md-6 col-ms-6 col-6  text-right  ">
-              <p class="lead "><b class="dispaly-6">¡Señales cognitivas!<br></b></p>
-              </br>
-              <input type="checkbox" name="transporte" value="1">Siento miedo e inseguridad al estar en presencia de esa
-              persona.
-              <br>
-              <input type="checkbox" name="transporte" value="1">Se burla de tus creencias o ideales.
-              <br>
-              <input type="checkbox" name="transporte" value="1">Invade tu espacio personal.
-              <br>
-              <input type="checkbox" name="transporte" value="1"> Te degrada continuamente.
-              <br>
-              <input type="checkbox" name="transporte" value="1">Ignora tus necesidades emocionales.
-              <br>
-              <br></br>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-6 col-md-6 col-ms-6 col-6   ">
-              <img src="{{ url_for('static', filename='img/somos.gif') }}" class="w-50 ">
-            </div>
-            <div class="col-lg-6 col-md-6 col-ms-6 col-6  text-right  ">
-              <p class="lead "><b class="dispaly-6">¡Señales emocionales!<br></b></p>
+        <div class="botones-container">
+          <button class="boton boton1" id="1">Mi apetito ha cambiado: se ha reducido o aumentado.</button>
+          <button class="boton boton2" id="2">Presento reacciones involuntarias ante muestras de afecto.</button>
+          <button class="boton boton3" id="3">Siento miedo e inseguridad a1 estar en presencia de esa persona</button>
+          <button class="boton boton4" id="4">Te degrada continuamente.</button>
+          <button class="boton boton5" id="5">Tengo ganas de llorar y no puedo controlar el llanto.</button>
+          <button class="boton boton6" id="6">Te culpa de todo 10 que sucede
+            aunque sus razones, sean incoherentes.</button>
+        </div>
 
-              </br>
-              <input type="checkbox" name="transporte" value="1">Tu pareja te impide hacer las cosas que te hacen sentir
-              bien o ir a sitios que te causan genuina felicidad
-              <br>
-              <input type="checkbox" name="transporte" value="1">Tengo ganas de llorar y no puedo controlar el llanto.
-              <br>
-              <input type="checkbox" name="transporte" value="1">Siento que mi estado de ánimo depende de un hombre.
-              <br>
-              <input type="checkbox" name="transporte" value="1">Criticas que hacen sentirte inferior.
-              <br>
-              <input type="checkbox" name="transporte" value="1">Te culpa de todo lo que sucede , aunque sus razones
-              sean incoherentes.
-              <br></br>
-            </div>
-          </div>
-        </div><br>
         <br>
-        <center> <button type="button" class="btn btn-outline-primary w-25" data-bs-toggle="modal"
-            data-bs-target="#exampleModal">Enviar</button></center>
+        <center> <input type="button" class="btn btn-outline-primary w-25" data-bs-toggle="modal" value="Enviar"
+            data-bs-target="#exampleModal"></center>
       </div>
+
       <!-- Modal -->
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class=" modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -133,11 +110,15 @@
                   NUESTROS MEDICOS <br><br><br>
                 </h2>
               </div>
-              <p> Pulsa en el boton para agendar tu cita con alguno de nuestros psicologos, atienden todos los dias.</p>
+              <p id="counter">Seleccionaste 0 botones, de 6. <br>Padeces de violencia, te recomendamos que pulses el
+                botón.</br></p>
+
+              <p> Al pulsar el boton, podras agendar tu cita con alguno de nuestros psicologos, ellos atienden todos los dias,
+                de est&aacute; forma, podras mejoras tu forma de vida. </p>
             </div>
             <div class="modal-footer">
               {% if (session['tipo']==3) %}
-              <li><a class="btn btn-primary" href="{{ url_for('agcita') }}">Agendar tu cita</a></li>
+              <a class="btn btn-primary" href="{{ url_for('agcita') }}">Agendar tu cita</a>
               {%else%}
               <a class="btn btn-primary" href="{{ url_for('p_login') }}">Agendar tu cita</a>
               {%endif%}
@@ -157,6 +138,37 @@
   </div>
   </div>
   <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+
+  <script>
+    const buttons = document.querySelectorAll('button');
+    const selectedButtons = [];
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        if (button.classList.contains('selected')) {
+          button.classList.remove('selected');
+          const index = selectedButtons.indexOf(button.id);
+          if (index > -1) {
+            selectedButtons.splice(index, 1);
+          }
+        } else {
+          button.classList.add('selected');
+          selectedButtons.push(button.id);
+        }
+        updateCounter(selectedButtons.length);
+      });
+    });
+
+    const counter = document.getElementById('counter');
+
+    function updateCounter(count) {
+      counter.innerText = `Seleccionaste ${count} botones.`;
+    }
+
+
+
+  </script>
+
 </body>
 
 </footer>

@@ -63,6 +63,29 @@ def informacion():
     return render_template('general.html')
 
 
+
+@app.route('/consulta', methods=['GET', 'POST'])
+def consulta():
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT cita.id_cita, usuario.nombre FROM usuario INNER JOIN usuario on usuario.id = usuario on usuario.id')
+    # cur.execute('SELECT c.id_cita, u.nombre, u.apellido, c.id_medico, fecha, estado_cita, observaciones FROM cita c, usuario u; LIMIT')
+    resultado = cur.fetchall()
+    print(resultado)
+    return render_template('consulta/consulta.html', resultado = resultado)
+
+
+
+
+@app.route('/mis_citas') #Ver las citas de cada user (by id)
+def mis_citas(id_paciente):
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT c.id_cita, u.nombre, u.apellido, c.id_medico, fecha, estado_cita, observaciones FROM WHERE id_paciente=%s',(id_paciente,))
+    cita = cur.fetchall()
+    cur.close()
+    return render_template('mis_citas.html', citas = cita)
+
+
+
 # <--Fin de la redirección(solo redireccionan)-->
 
 # Formulario de registro
@@ -252,13 +275,21 @@ def detalles_admin():
         return redirect(url_for('index', msg=msg), detalles=detalle)
 
 
-@app.route('/citas')
+@app.route('/citas', methods=['GET', 'POST'])
 def citas():
-    cur = mysql.connection.cursor()
-    cur.execute('SELECT c.id_cita, u.nombre, u.apellido, c.id_medico, fecha, estado_cita, observaciones FROM cita c, usuario u order by fecha asc ;')
-    data = cur.fetchall()
-    cur.close()
-    return render_template('citas.html', reporte=data)
+    if request.method == "POST":
+        if request.method == "POST":
+            search = request.form['buscar']
+            sql= "SELECT c.id_cita, u.nombre, u.apellido, c.id_medico, fecha, estado_cita, observaciones FROM cita c, usuario u WHERE nombre ='%s'" % (search,)
+            cursor = mysql.connection.cursor()
+            cursor.execute(sql)
+            reporte = cursor.fetchall()
+            print(reporte)
+            return render_template('consulta/citas.html', reporte=reporte, busqueda=search)
+    return redirect(url_for('consulta'))
+        
+        
+
 
 
 # ya
