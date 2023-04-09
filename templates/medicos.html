@@ -22,29 +22,24 @@
   <div style="background-color: #F4BEEE;">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        {% if (session['tipo']==1) or(session['tipo']==2) or (session['tipo']==3) %}
-          <a class="navbar-brand" href="{{ url_for('index') }}">Inicio</a>
-        
-            
-        {%endif%}
+        <a class="navbar-brand" href="{{ url_for('index') }}">Inicio</a>
         <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
           <ul class="navbar-nav">
             <li class="nav-item dropdown">
-              <li><a class="dropdown-item" href="{{ url_for('admin') }}">Home</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('ad_cita') }}">Agendar</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('citas') }}">Gestionar citas</a></li>
-                             
-             <li><a class="dropdown-item" href="{{ url_for('medicos') }}">Psicologos</a></li>
-                  
-                  <li><a class="dropdown-item text-dark bi-door-open" href="{{ url_for('logout') }}"> Cerrar sesión</a></li>
-                  
-              </ul>
-            </li>
+            <li><a class="dropdown-item" href="{{ url_for('ad_cita') }}">Agendar</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('citas') }}">Gestionar citas</a></li>
+
+            <li><a class="dropdown-item" href="{{ url_for('medicos') }}">Psicologos</a></li>
+
+            <li><a class="dropdown-item text-dark bi-door-open" href="{{ url_for('logout') }}"> Cerrar sesión</a></li>
+
+          </ul>
+          </li>
           </ul>
         </div>
       </div>
     </nav>
-    
+
     <br>
     <br>
     <br>
@@ -54,43 +49,46 @@
       <div class="container shadow-lg p-3 mb-5 bg-white rounded bg ">
         <table class="table table-hover" id="example">
           <thead class="table-light">
-              <tr>
-                  <td>
-                      Código
-                  </td>
-                  <td>
-                      nombre
-                  </td>
-                  
-                  <td>
-                    edad
-                </td>
-                  <td>
-                    correo
-                </td>
-                  <td>
-                      Especialización
-                  </td>
-                  <td>
-                      Ciudad
-                  </td>
-              </tr>
+            <tr>
+              <th>
+                Código
+              </th>
+              <th>
+                Nombre
+              </th>
+              <th>
+                Apellido
+              </th>
+
+              <th>
+                Edad
+              </th>
+              <th>
+                Correo
+              </th>
+              <th>
+                Especialización
+              </th>
+              <th>
+                Ciudad
+              </th>
+            </tr>
           </thead>
           <tbody>
             {% for report in reporte %}
-              <tr>
-                <td>{{report.0}}</td>
-                <td>{{report.1}}</td>
-                <td>{{report.2}}</td>
-                <td>{{report.3}}</td>
-                
-                <td>{{report.5}}</td>
-                <td>{{report.6}}</td>
-                
-              </tr>
+            <tr>
+              <td>{{report.0}}</td>
+              <td>{{report.1}}</td>
+              <td>{{report.2}}</td>
+              <td>{{report.3}} Años</td>
+              <td>{{report.4}}</td>
+              <td>{{report.6}}</td>
+              <td>{{report.7}}</td>
+
+            </tr>
             {% endfor %}
           </tbody>
-      </table>
+        </table>
       </div>
     </div>
   </div>
@@ -103,7 +101,7 @@
   <br>
   <br>
 
- 
+
   </div>
   </div>
   <script src="{{ url_for('static', filename='js/index.js') }}"></script>

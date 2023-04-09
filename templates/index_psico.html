@@ -25,11 +25,10 @@
               <li class="nav-item dropdown">
                    
                 
-                  <li><a class="dropdown-item" href="{{ url_for('loginpsico') }}">Home</a></li>
-                    <li><a class="dropdown-item" href="{{ url_for('cita_psico') }}">Agendar</a></li>
-                    <li><a class="dropdown-item" href="{{ url_for('citas') }}">Gestionar citas</a></li>
+                    <li><a class="navbar-brand" href="{{ url_for('cita_psico') }}">Agendar</a></li>
+                    <li><a class="navbar-brand" href="{{ url_for('citas') }}">Gestionar citas</a></li>
                                    
-                   <li><a class="dropdown-item" href="{{ url_for('medicos') }}">Psicologos</a></li>
+                   <li><a class="navbar-brand" href="{{ url_for('medicos') }}">Psicologos</a></li>
                     
                     <li><a class="dropdown-item text-dark bi-door-open" href="{{ url_for('logout') }}"> Cerrar sesión</a></li>
                     

@@ -68,19 +68,19 @@ def consulta():
     cur = mysql.connection.cursor()
     # cur.execute('SELECT cita.id_cita, usuario.nombre FROM usuario INNER JOIN usuario on usuario.id = usuario on usuario.id')
     # cur.execute('SELECT cita.id_cita, usuario.nombre, usuario.apellido, cita.id_medico, cita.fecha, cita.estado_cita, cita.observaciones FROM cita INNER JOIN usuario ON cita.id_cita = usuario.id;')
-    #cur.execute("SELECT c.id_paciente, c.fecha, u.nombre, p.nombre, c.estado_cita, c.observaciones FROM cita c INNER JOIN usuario u ON c.id_paciente = u.id JOIN psicologos p ON c.id_cita = p.id;")
-    cur.execute('SELECT c.id_paciente, c.fecha, u.nombre, p.nombre, c.estado_cita, c.observaciones FROM cita c INNER JOIN usuario u ON c.id_paciente = u.id INNER JOIN psicologos p ON c.id_medico = p.id;') #Correcto
+    # cur.execute("SELECT c.id_paciente, c.fecha, u.nombre, p.nombre, c.estado_cita, c.observaciones FROM cita c INNER JOIN usuario u ON c.id_paciente = u.id JOIN psicologos p ON c.id_cita = p.id;")
+    cur.execute('SELECT c.id_paciente, c.fecha, u.nombre, p.nombre, c.estado_cita, c.observaciones FROM cita c INNER JOIN usuario u ON c.id_paciente = u.id INNER JOIN psicologos p ON c.id_medico = p.id;')  # Correcto
     resultado = cur.fetchall()
     print(resultado)
     return render_template('consulta/consulta.html', resultado=resultado)
 
 
 @app.route('/mis_citas')  # Ver las citas de cada user (by id)
-def mis_citas(id_paciente):
-    cur = mysql.connection.cursor()
-    cur.execute('SELECT c.id_cita, u.nombre, u.apellido, c.id_medico, fecha, estado_cita, observaciones FROM WHERE id_paciente=%s', (id_paciente,))
-    cita = cur.fetchall()
-    cur.close()
+def mis_citas():
+    user = session['id']
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT c.id_paciente, c.fecha, u.nombre, p.nombre, c.estado_cita, c.observaciones FROM cita c INNER JOIN usuario u ON c.id_paciente = u.id INNER JOIN psicologos p ON c.id_medico = p.id WHERE id_paciente=%s',(user,))  # Correcto
+    cita = cursor.fetchall()
     return render_template('mis_citas.html', citas=cita)
 
 
@@ -211,20 +211,6 @@ def logout():
     return redirect(url_for('p_login'))
 
 
-# Verificar estado de las citas, si ya hay espacio
-def verificar_cita(fecha):
-    cursor = mysql.connect.cursor()
-    fecha_min = fecha - timedelta(minutes=60)
-    fecha_max = fecha + timedelta(minutes=60)
-    query = "SELECT * FROM cita WHERE fecha BETWEEN %s AND %s"
-    cursor.execute(query, (fecha_min, fecha_max))
-    result = cursor.fetchone()
-    if result:
-        return True
-    else:
-        return False
-
-
 # Agendar cita
 @app.route('/agendar_cita')
 def agcita():
@@ -239,17 +225,13 @@ def agcita():
 @app.route('/guardar_detalles', methods=['POST'])
 def guardar_detalles():
     msg = ''
-    id_paciente = request.form['txtid']
-    id_medico = request.form['id_doctor']
-    fecha_str = request.form['txtfecha']
-    fecha = datetime.strptime(fecha_str, '%Y-%m-%dT%H:%M')
-    duracion = 20
-    if verificar_cita(fecha):
-        msg = 'Lo siento, y hay una cita asignada a esa hora.'
-    else:
+    if request.method == 'POST':
+        id_paciente = request.form['txtid']
+        id_medico = request.form['id_doctor']
+        fecha_str = request.form['txtfecha']
         cursor = mysql.connection.cursor()
-        cursor.execute('INSERT INTO cita(id_paciente, id_medico, fecha, estado_cita, horario) VALUES (%s, %s, %s, %s, %s)',
-                       (id_paciente, id_medico, fecha, 'Aceptado', fecha))
+        cursor.execute('INSERT INTO cita(id_paciente, id_medico, fecha, estado_cita) VALUES (%s, %s, %s, %s)',
+                           (id_paciente, id_medico, fecha_str, 'Aceptado'))
         mysql.connection.commit()
         msg = 'La Cita se agendó correctamente.'
     return render_template('general.html', msg=msg)
@@ -282,7 +264,7 @@ def citas():
             cursor = mysql.connection.cursor()
             # cursor.execute("SELECT c.id_paciente, c.fecha, u.nombre, c.id_medico, c.estado_cita, c.observaciones FROM cita c INNER JOIN usuario u ON c.id_paciente = u.id WHERE u.nombre = %s",(search,))
             # cursor.execute("SELECT cita.* FROM cita JOIN usuario ON cita.id_paciente = usuario.id WHERE usuario.nombre = %s", [search])
-            cursor.execute("SELECT c.id_paciente, c.fecha, u.nombre, p.nombre, c.estado_cita, c.observaciones FROM cita c INNER JOIN usuario u ON c.id_paciente = u.id INNER JOIN psicologos p ON c.id_medico = p.id WHERE u.nombre =%s",(search,))
+            cursor.execute("SELECT c.id_paciente, c.fecha, u.nombre, p.nombre, c.estado_cita, c.observaciones FROM cita c INNER JOIN usuario u ON c.id_paciente = u.id INNER JOIN psicologos p ON c.id_medico = p.id WHERE u.nombre =%s", (search,))
             reporte = cursor.fetchall()
             print(reporte)
             return render_template('consulta/citas.html', reporte=reporte, busqueda=search)
