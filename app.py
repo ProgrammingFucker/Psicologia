@@ -24,7 +24,7 @@ app.secret_key = "mysecretkey"
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('usuarios/index.html')
 
 
 @app.route('/link_registro')
@@ -37,25 +37,19 @@ def p_register():
 def p_login():
     return render_template('login.html')
 
-
-@app.route('/psicologos')
-def psico():
-    return render_template('psico.html')
-
-
 @app.route('/admin')
 def admin():
-    return render_template('login_admin.html')
+    return render_template('admin/login_admin.html')
 
 
-@app.route('/loginadmin')
-def loginadmin():
-    return render_template('admin.html')
+@app.route('/admin_index')
+def admin_index():
+    return render_template('admin/admin.html')
 
 
 @app.route('/login_pisco')
 def login_pisco():
-    return render_template('login_pisco.html')
+    return render_template('medicos/login_psico.html')
 
 
 @app.route('/general')
@@ -81,7 +75,7 @@ def mis_citas():
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT c.id_paciente, c.fecha, u.nombre, p.nombre, c.estado_cita, c.observaciones FROM cita c INNER JOIN usuario u ON c.id_paciente = u.id INNER JOIN psicologos p ON c.id_medico = p.id WHERE id_paciente=%s',(user,))  # Correcto
     cita = cursor.fetchall()
-    return render_template('mis_citas.html', citas=cita)
+    return render_template('usuarios/mis_citas.html', citas=cita)
 
 
 # <--Fin de la redirección(solo redireccionan)-->
@@ -162,17 +156,17 @@ def indexadmin():
         user = cursor.fetchone()
         if user:
 
-            return redirect(url_for('loginadmin'))
+            return redirect(url_for('admin_index'))
         else:
             # cuenta no existe
             msg = 'Usuario / Contraseña incorrecto!'
-            return render_template('login_admin.html', msg=msg)
+            return render_template('admin/login_admin.html', msg=msg)
 
 
-# loginadmin
-@app.route('/loginpsico')
-def loginpsico():
-    return render_template('index_psico.html')
+# loginPisco
+@app.route('/index_psico')
+def index_psico():
+    return render_template('medicos/index_psico.html')
 
 
 # login psicologo
@@ -187,11 +181,11 @@ def indexpsico():
             'SELECT * FROM psicologos WHERE correo = %s AND contraseña = %s', (emailp, passwordp))
         user = cursor.fetchone()
         if user:
-            return redirect(url_for('loginpsico'))
+            return redirect(url_for('index_psico'))
         else:
             # cuenta no existe
             msg = 'Usuario / Contraseña incorrecto!'
-            return render_template('login_pisco.html', msg=msg)
+            return render_template('medicos/login_psico.html', msg=msg)
 
 
 # Cerrar sesion
@@ -219,7 +213,17 @@ def agcita():
     data1 = cur.fetchall()
     print(data1)
     cur.close()
-    return render_template('ag_cita.html', detalles=data1)
+    return render_template('usuarios/ag_cita.html', detalles=data1)
+
+
+@app.route('/agendar_cita_psico')
+def agcita_psico():
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM psicologos')
+    data1 = cur.fetchall()
+    print(data1)
+    cur.close()
+    return render_template('medicos/ag_cita_psico.html', detalles=data1)
 
 
 @app.route('/guardar_detalles', methods=['POST'])
@@ -234,7 +238,7 @@ def guardar_detalles():
                            (id_paciente, id_medico, fecha_str, 'Aceptado'))
         mysql.connection.commit()
         msg = 'La Cita se agendó correctamente.'
-    return render_template('general.html', msg=msg)
+    return render_template('index.html', msg=msg)
 
 
 @app.route('/detalles_admin', methods=['POST'])
@@ -274,27 +278,54 @@ def citas():
 # ya
 @app.route('/ad_cita')
 def ad_cita():
-    return render_template('ag_cita_admin.html')
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM psicologos order by id ASC  ;')
+    data = cur.fetchall()
+    cur.close()
+    return render_template('admin/ag_cita_admin.html', data = data)
 
 
 # agregar cita psicologo
 @app.route('/cita_psico')
 def cita_psico():
-    return render_template('ag_cita_psico.html')
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM psicologos')
+    data1 = cur.fetchall()
+    print(data1)
+    cur.close()
+    return render_template('medicos/ag_cita_psico.html', detalle = data1)
 
 
-@app.route('/medicos')
+@app.route('/medicos') #Medicos User
 def medicos():
     cur = mysql.connection.cursor()
     cur.execute('SELECT * FROM psicologos order by id ASC  ;')
     data = cur.fetchall()
     cur.close()
-    return render_template('medicos.html', reporte=data)
+    return render_template('usuarios/medicos.html', reporte=data)
+
+
+@app.route('/medicos_psico') #Medicos En Psicologos
+def medicos_psico():
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM psicologos order by id ASC  ;')
+    data = cur.fetchall()
+    cur.close()
+    return render_template('medicos/medicos.html', reporte=data)
+
+
+@app.route('/medicos_admin') #Medicos En Psicologos
+def medicos_admin():
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM psicologos order by id ASC  ;')
+    data = cur.fetchall()
+    cur.close()
+    return render_template('admin/medicos.html', reporte=data)
 
 
 @app.route('/admin_abre')
 def admin_abre():
-    return render_template('admin.html')
+    return render_template('admin/admin.html')
 
 
 if __name__ == '__main__':

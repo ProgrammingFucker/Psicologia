@@ -4,5 +4,6 @@ Correcpciones u/o Mejoras
 1. Mejorar las opciones a escoger de violencia(listo). (Final 6.0)
 2. Buscar una cita por parte de un médico o la fundación(Listo) (Final 6.5)
 3. El paciente pueda ver sus citas. (Listo) (Final 7.0)
-4. /* FronEnd(Eso no lo hago yo.) (8.0)*/
-5. Chat (En Proceso) (9.0)
+5. Chat (En Proceso) (8.0)
+6 No repetir citas (En Proceso)(9.0)
+4. /* FronEnd(Medio.) (10.0.0)*/
