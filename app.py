@@ -63,7 +63,7 @@ def consulta():
     # cur.execute('SELECT cita.id_cita, usuario.nombre FROM usuario INNER JOIN usuario on usuario.id = usuario on usuario.id')
     # cur.execute('SELECT cita.id_cita, usuario.nombre, usuario.apellido, cita.id_medico, cita.fecha, cita.estado_cita, cita.observaciones FROM cita INNER JOIN usuario ON cita.id_cita = usuario.id;')
     # cur.execute("SELECT c.id_paciente, c.fecha, u.nombre, p.nombre, c.estado_cita, c.observaciones FROM cita c INNER JOIN usuario u ON c.id_paciente = u.id JOIN psicologos p ON c.id_cita = p.id;")
-    cur.execute('SELECT c.id_paciente, c.fecha, u.nombre, p.nombre, c.estado_cita, c.observaciones FROM cita c INNER JOIN usuario u ON c.id_paciente = u.id INNER JOIN psicologos p ON c.id_medico = p.id;')  # Correcto
+    cur.execute('SELECT c.id_paciente, c.fecha, u.nombre, p.nombre, p.apellido, c.estado_cita, c.observaciones FROM cita c INNER JOIN usuario u ON c.id_paciente = u.id INNER JOIN psicologos p ON c.id_medico = p.id;')  # Correcto
     resultado = cur.fetchall()
     print(resultado)
     return render_template('consulta/consulta.html', resultado=resultado)
@@ -73,7 +73,7 @@ def consulta():
 def mis_citas():
     user = session['id']
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT c.id_paciente, c.fecha, u.nombre, p.nombre, c.estado_cita, c.observaciones FROM cita c INNER JOIN usuario u ON c.id_paciente = u.id INNER JOIN psicologos p ON c.id_medico = p.id WHERE id_paciente=%s',(user,))  # Correcto
+    cursor.execute('SELECT c.id_paciente, c.fecha, u.nombre, p.nombre, p.apellido, c.estado_cita, c.observaciones FROM cita c INNER JOIN usuario u ON c.id_paciente = u.id INNER JOIN psicologos p ON c.id_medico = p.id WHERE id_paciente=%s',(user,))  # Correcto
     cita = cursor.fetchall()
     return render_template('usuarios/mis_citas.html', citas=cita)
 
