@@ -226,7 +226,7 @@ def agcita_psico():
     return render_template('medicos/ag_cita_psico.html', detalles=data1)
 
 
-@app.route('/guardar_detalles', methods=['POST'])
+@app.route('/guardar_detalles', methods=['POST']) #Agendar cita user
 def guardar_detalles():
     msg = ''
     if request.method == 'POST':
@@ -246,7 +246,6 @@ def guardar_detalles():
             return render_template('usuarios/ag_cita.html', datos=datos, msg=msg)
 
         # guardar en la BD
-
         cursor = mysql.connection.cursor()
         cursor.execute('INSERT INTO cita(id_paciente, id_medico, fecha, estado_cita) VALUES (%s, %s, %s, %s)',
                            (id_paciente, id_medico, fecha_str, 'Aceptado'))
