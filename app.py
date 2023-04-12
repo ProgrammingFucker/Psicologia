@@ -233,12 +233,28 @@ def guardar_detalles():
         id_paciente = request.form['txtid']
         id_medico = request.form['id_doctor']
         fecha_str = request.form['txtfecha']
+        datos = [id_paciente, id_medico, fecha_str]
+
+        # Comprobar si el email existe
+        cursor = mysql.connection.cursor()
+        cursor.execute(
+            'SELECT * FROM cita WHERE fecha = %s', [str(fecha_str)])
+        cita = cursor.fetchone()
+        cursor.close()
+        if cita:
+            msg = "Ya existe una cita a esta hora"
+            return render_template('usuarios/ag_cita.html', datos=datos, msg=msg)
+
+        # guardar en la BD
+
         cursor = mysql.connection.cursor()
         cursor.execute('INSERT INTO cita(id_paciente, id_medico, fecha, estado_cita) VALUES (%s, %s, %s, %s)',
                            (id_paciente, id_medico, fecha_str, 'Aceptado'))
         mysql.connection.commit()
-        msg = 'La Cita se agendó correctamente.'
-    return render_template('usuarios/index.html', msg=msg)
+        msg = 'Se ha creado la cuenta correctamente'
+        return render_template('index.html', msg=msg)
+
+
 
 
 @app.route('/detalles_admin', methods=['POST'])
