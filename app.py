@@ -238,7 +238,7 @@ def guardar_detalles():
                            (id_paciente, id_medico, fecha_str, 'Aceptado'))
         mysql.connection.commit()
         msg = 'La Cita se agendó correctamente.'
-    return render_template('index.html', msg=msg)
+    return render_template('usuarios/index.html', msg=msg)
 
 
 @app.route('/detalles_admin', methods=['POST'])
