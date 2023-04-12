@@ -251,7 +251,7 @@ def guardar_detalles():
         cursor.execute('INSERT INTO cita(id_paciente, id_medico, fecha, estado_cita) VALUES (%s, %s, %s, %s)',
                            (id_paciente, id_medico, fecha_str, 'Aceptado'))
         mysql.connection.commit()
-        msg = 'Se ha creado la cuenta correctamente'
+        msg = 'Se ha asignado correctamente'
         return render_template('index.html', msg=msg)
 
 
